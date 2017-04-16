@@ -13,36 +13,21 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include <Server.h>
-#include <cstdlib>
-#include <cstring>
-#include <string>
+#include <src/Node.h>
+#include <string.h>
 
-Define_Module(Server);
+Define_Module(Node);
 
-using namespace std;
-
-Server::Server() {
-
-
+Node::Node() {
 }
 
-Server::~Server() {
-    // TODO Auto-generated destructor stub
-}
-void Server::initialize(){
-    srand(time(NULL));
-    int nodeID = 1+rand()%4;
-    char nodeInf[50];
-    sprintf(nodeInf,"node%d",nodeID);
-    cMessage *msg = new cMessage(nodeInf);
-    send(msg, "r_out",1);
-    send(msg, "r_out",0);
-    //for(int i=0;i<2;++i)
-
+Node::~Node() {
 }
 
-void Server::handleMessage(cMessage *msg){
-    /*send(msg,"out");*/
+void Node::initialize(){
+}
+
+void Node::handleMessage(cMessage *msg){
+
 }
 

@@ -13,36 +13,25 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include <Server.h>
-#include <cstdlib>
-#include <cstring>
-#include <string>
+#include <Router.h>
 
-Define_Module(Server);
+Define_Module(Router);
 
-using namespace std;
-
-Server::Server() {
-
+Router::Router() {
+    // TODO Auto-generated constructor stub
 
 }
 
-Server::~Server() {
+Router::~Router() {
     // TODO Auto-generated destructor stub
 }
-void Server::initialize(){
-    srand(time(NULL));
-    int nodeID = 1+rand()%4;
-    char nodeInf[50];
-    sprintf(nodeInf,"node%d",nodeID);
-    cMessage *msg = new cMessage(nodeInf);
-    send(msg, "r_out",1);
-    send(msg, "r_out",0);
-    //for(int i=0;i<2;++i)
 
+void Router::initialize(){
+    /*cMessage *msg = new cMessage("tictocMsg");
+    send(msg, "out");*/
 }
 
-void Server::handleMessage(cMessage *msg){
-    /*send(msg,"out");*/
+void Router::handleMessage(cMessage *msg){
+    //send(msg,"c_out",0);
 }
 

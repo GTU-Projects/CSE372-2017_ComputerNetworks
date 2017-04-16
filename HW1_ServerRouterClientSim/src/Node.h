@@ -13,36 +13,23 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include <Server.h>
-#include <cstdlib>
-#include <cstring>
-#include <string>
+#ifndef NODE_H_
+#define NODE_H_
 
-Define_Module(Server);
+#include <omnetpp.h>
 
-using namespace std;
+using namespace omnetpp;
 
-Server::Server() {
+class Node: public cSimpleModule {
+public:
+    Node();
+    virtual ~Node();
+
+protected:
+    virtual void initialize() override;
+    virtual void handleMessage(cMessage *msg) override;
+};
 
 
-}
 
-Server::~Server() {
-    // TODO Auto-generated destructor stub
-}
-void Server::initialize(){
-    srand(time(NULL));
-    int nodeID = 1+rand()%4;
-    char nodeInf[50];
-    sprintf(nodeInf,"node%d",nodeID);
-    cMessage *msg = new cMessage(nodeInf);
-    send(msg, "r_out",1);
-    send(msg, "r_out",0);
-    //for(int i=0;i<2;++i)
-
-}
-
-void Server::handleMessage(cMessage *msg){
-    /*send(msg,"out");*/
-}
-
+#endif /* CLIENT_H_ */
