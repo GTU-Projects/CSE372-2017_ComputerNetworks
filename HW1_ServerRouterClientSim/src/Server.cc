@@ -36,8 +36,8 @@ void Server::initialize(){
     char nodeInf[50];
     sprintf(nodeInf,"node%d",nodeID);
     cMessage *msg = new cMessage(nodeInf);
-    send(msg, "r_out",1);
-    send(msg, "r_out",0);
+
+    //send(msg, "r_out",0);
     //for(int i=0;i<2;++i)
 
 }
