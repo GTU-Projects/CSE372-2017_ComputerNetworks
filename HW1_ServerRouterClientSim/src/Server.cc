@@ -28,21 +28,43 @@ Server::Server() {
 }
 
 Server::~Server() {
+
     // TODO Auto-generated destructor stub
 }
 void Server::initialize(){
     srand(time(NULL));
-    int nodeID = 1+rand()%4;
-    char nodeInf[50];
-    sprintf(nodeInf,"node%d",nodeID);
-    cMessage *msg = new cMessage(nodeInf);
+    int routerWay;
+    nodeNum = par("nodeNum");
+    routerNum = par("routerNum");
 
-    //send(msg, "r_out",0);
-    //for(int i=0;i<2;++i)
+    cMessage *msg = getRandomNodeMsg(routerWay);
 
+    send(msg, "r_out",routerWay);
+    //delete msg;
 }
 
 void Server::handleMessage(cMessage *msg){
-    /*send(msg,"out");*/
+    int routerWay;
+
+    int counter = par("counter");
+    if(counter!=30){
+        cMessage *msg1 = getRandomNodeMsg(routerWay);
+        send(msg1, "r_out",routerWay);
+        --counter;
+        par("counter").setLongValue(counter);
+    }
+
+    //delete msg;
+}
+
+cMessage* Server::getRandomNodeMsg(int &routerWay){
+    char nodeInf[50];
+    cMessage *msg;
+    int nodeID = rand() % (nodeNum*routerNum);
+    sprintf(nodeInf,"n%d",nodeID);
+    msg = new cMessage(nodeInf);
+
+    routerWay = (nodeID / nodeNum);
+    return msg;
 }
 

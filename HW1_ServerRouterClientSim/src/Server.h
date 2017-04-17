@@ -27,6 +27,10 @@ public:
 protected:
     virtual void initialize() override;
     virtual void handleMessage(cMessage *msg) override;
+private:
+    int nodeNum;
+    int routerNum;
+    cMessage* getRandomNodeMsg(int &routerWay); // random node icin mesaj ve gonderilecegi router verir
 };
 
 #endif /* SERVER_H_ */

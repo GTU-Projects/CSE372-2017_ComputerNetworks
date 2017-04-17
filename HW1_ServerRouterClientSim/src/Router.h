@@ -27,6 +27,7 @@ public:
 protected:
     virtual void initialize() override;
     virtual void handleMessage(cMessage *msg) override;
+    int nodeNum;
 };
 
 #endif /* ROUTER_H_ */

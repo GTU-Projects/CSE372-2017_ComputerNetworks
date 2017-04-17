@@ -25,10 +25,28 @@ Node::~Node() {
 }
 
 void Node::initialize(){
+    totalNode = par("totalNode");
 }
 
 void Node::handleMessage(cMessage *msg){
+    char buffer[50];
+    int myIndex=0;
+    char tmp;
 
+    sscanf(msg->getName(),"%c%d",&tmp,&myIndex);
+
+    if(rand()%2==0){ // send server
+        sprintf(buffer,"s%d",getIndex());
+        send(new cMessage(buffer),"out");
+    }else{
+        int nodeID;
+        do{
+            nodeID = rand() % totalNode;
+        }while(nodeID==getIndex());
+        sprintf(buffer,"n%d",nodeID);
+        send(new cMessage(buffer),"out");
+    }
 
 }
+
 

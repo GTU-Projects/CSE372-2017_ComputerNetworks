@@ -7,6 +7,8 @@ package hw1_serverrouterclientsim;
 
 simple Server
 {
+    int routerNum;
+    int nodeNum;
     gates:
         input r_in[]; // router inputs - outputs
         output r_out[];
@@ -17,7 +19,7 @@ simple Server
 //
 simple Node
 {
-    
+    int totalNode;
     gates:
         input in;
         output out;
@@ -25,12 +27,11 @@ simple Node
 
 simple Router{
     int nodeNum;
-        
     gates:
         input s_in; // server inputs - outputs
         output s_out;
-        input c_in[]; // client inputs outputs
-        output c_out[];
+        input n_in[]; // client inputs outputs
+        output n_out[];
         input r_in[]; // router intputs - outputs
         output r_out[];
         
@@ -45,12 +46,17 @@ network Network
 {
     
     parameters:
+        double counter = default(30);
         double n @prompt("Number of nodes") = default(3);
         double r @prompt("Number of routers") = default(5);
         @display("b=800,800");
     submodules:
 
         MainServer: Server {
+            parameters:
+                nodeNum=n;
+                routerNum=r;
+            
             @display("p=300,300");
         }
 
@@ -62,6 +68,8 @@ network Network
         };
         
         node[n*r]: Node{
+            parameters:
+                totalNode = n*r;
             @display("p=0,0,ri,300,300");
         };
 
@@ -69,23 +77,33 @@ network Network
     connections:
         // router - server connections
         for i=0..r-1{
-        	MainServer.r_out++ --> router[i].s_in;
-        	router[i].s_out --> MainServer.r_in++;
+        	MainServer.r_out++ --> {  delay = 250ms; } --> router[i].s_in;
+        	router[i].s_out --> {  delay = 250ms; } --> MainServer.r_in++;
         }
         
         // router - node connections
         for j=0..sizeof(node)-1{
-        	node[j].out --> router[j/n].c_in++;
-        	router[j/n].c_out++ --> node[j].in;
+        	node[j].out --> {  delay = 250ms; } --> router[j/n].n_in++;
+        	router[j/n].n_out++ --> {  delay = 250ms; } --> node[j].in;
         }
         
         // router out - router in connections
-        for i=0..r-2{
-        	router[i].r_out++ --> router[i+1].r_in++;
-        	router[i+1].r_out++ --> router[i].r_in++;
+        router[0].r_out++ --> {delay = 250ms;} --> router[r-1].r_in++;
+        
+        for i=1..r-1{
+            router[i].r_out++ --> {  delay = 250ms; } --> router[i-1].r_in++;
+            router[i-1].r_out++ --> {  delay = 250ms; } --> router[i].r_in++;
         }
-        router[r-1].r_out++ --> router[0].r_in++;
-        router[0].r_out++ --> router[r-1].r_in++;
+        
+        router[r-1].r_out++ --> {  delay = 250ms; } --> router[0].r_in++;
+           
+        
+        
+        
+        
+        
+        
+        
         
         
 }

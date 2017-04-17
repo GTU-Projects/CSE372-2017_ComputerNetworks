@@ -27,11 +27,27 @@ Router::~Router() {
 }
 
 void Router::initialize(){
-    /*cMessage *msg = new cMessage("tictocMsg");
-    send(msg, "out");*/
+    nodeNum = par("nodeNum");
 }
 
 void Router::handleMessage(cMessage *msg){
-    //send(msg,"c_out",0);
+
+    char buffer[10];
+    char receiver;
+    int way;
+
+    sscanf(msg->getName(),"%c%d",&receiver,&way);
+    sprintf(buffer,"n%d",way);
+
+    if(receiver=='n'){
+        // aynı router altında ise
+        if(way>=getIndex()*nodeNum && way<(getIndex()+1)*nodeNum)
+            send(msg,"n_out",way%nodeNum);
+        else{
+            send(msg,"r_out",0);
+        }
+    }else if(receiver=='s'){
+        send(msg,"s_out");
+    }
 }
 
