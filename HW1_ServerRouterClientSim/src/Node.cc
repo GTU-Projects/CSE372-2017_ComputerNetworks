@@ -15,6 +15,7 @@
 
 #include <src/Node.h>
 #include <string.h>
+#include "Server.h"
 
 Define_Module(Node);
 
@@ -32,6 +33,10 @@ void Node::handleMessage(cMessage *msg){
     char buffer[50];
     int myIndex=0;
     char tmp;
+
+    if(msg->getPreviousEventNumber()==30){
+        endSimulation();
+    }
 
     sscanf(msg->getName(),"%c%d",&tmp,&myIndex);
 

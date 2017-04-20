@@ -23,12 +23,9 @@ Define_Module(Server);
 using namespace std;
 
 Server::Server() {
-
-
 }
 
 Server::~Server() {
-
     // TODO Auto-generated destructor stub
 }
 void Server::initialize(){
@@ -40,21 +37,21 @@ void Server::initialize(){
     cMessage *msg = getRandomNodeMsg(routerWay);
 
     send(msg, "r_out",routerWay);
-    //delete msg;
+
 }
 
 void Server::handleMessage(cMessage *msg){
     int routerWay;
 
-    int counter = par("counter");
-    if(counter!=30){
-        cMessage *msg1 = getRandomNodeMsg(routerWay);
-        send(msg1, "r_out",routerWay);
-        --counter;
-        par("counter").setLongValue(counter);
-    }
+    endSimulation();
 
-    //delete msg;
+    if(msg->getPreviousEventNumber()==30){
+        endSimulation();
+    }
+    cMessage *msg1 = getRandomNodeMsg(routerWay);
+    send(msg1, "r_out",routerWay);
+
+
 }
 
 cMessage* Server::getRandomNodeMsg(int &routerWay){

@@ -46,9 +46,8 @@ network Network
 {
     
     parameters:
-        double counter = default(30);
         double n @prompt("Number of nodes") = default(3);
-        double r @prompt("Number of routers") = default(5);
+        double r @prompt("Number of routers") = default(6);
         @display("b=800,800");
     submodules:
 
@@ -56,7 +55,6 @@ network Network
             parameters:
                 nodeNum=n;
                 routerNum=r;
-            
             @display("p=300,300");
         }
 
@@ -98,12 +96,7 @@ network Network
         router[r-1].r_out++ --> {  delay = 250ms; } --> router[0].r_in++;
            
         
-        
-        
-        
-        
-        
-        
+    
         
         
 }

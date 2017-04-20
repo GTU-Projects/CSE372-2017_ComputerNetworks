@@ -127,9 +127,11 @@ depend:
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/src/Node.o: src/Node.cc \
-	src/Node.h
+	src/Node.h \
+	src/Server.h
 $O/src/Router.o: src/Router.cc \
-	src/Router.h
+	src/Router.h \
+	src/Server.h
 $O/src/Server.o: src/Server.cc \
 	src/Server.h
 

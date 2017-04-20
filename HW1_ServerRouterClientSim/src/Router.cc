@@ -14,6 +14,7 @@
 // 
 
 #include <Router.h>
+#include "Server.h"
 
 Define_Module(Router);
 
@@ -35,6 +36,12 @@ void Router::handleMessage(cMessage *msg){
     char buffer[10];
     char receiver;
     int way;
+
+    endSimulation();
+
+    if(msg->getPreviousEventNumber()==30){
+        endSimulation();
+    }
 
     sscanf(msg->getName(),"%c%d",&receiver,&way);
     sprintf(buffer,"n%d",way);
