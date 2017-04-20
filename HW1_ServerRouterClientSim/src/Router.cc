@@ -37,24 +37,20 @@ void Router::handleMessage(cMessage *msg){
     char receiver;
     int way;
 
-    endSimulation();
+    if(msg->getPreviousEventNumber()!=30){
+        sscanf(msg->getName(),"%c%d",&receiver,&way);
+        sprintf(buffer,"n%d",way);
 
-    if(msg->getPreviousEventNumber()==30){
-        endSimulation();
-    }
-
-    sscanf(msg->getName(),"%c%d",&receiver,&way);
-    sprintf(buffer,"n%d",way);
-
-    if(receiver=='n'){
-        // aynı router altında ise
-        if(way>=getIndex()*nodeNum && way<(getIndex()+1)*nodeNum)
-            send(msg,"n_out",way%nodeNum);
-        else{
-            send(msg,"r_out",0);
+        if(receiver=='n'){
+            // aynı router altında ise
+            if(way>=getIndex()*nodeNum && way<(getIndex()+1)*nodeNum)
+                send(msg,"n_out",way%nodeNum);
+            else{
+                send(msg,"r_out",0);
+            }
+        }else if(receiver=='s'){
+            send(msg,"s_out");
         }
-    }else if(receiver=='s'){
-        send(msg,"s_out");
     }
 }
 

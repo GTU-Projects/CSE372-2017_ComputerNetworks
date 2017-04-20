@@ -34,22 +34,21 @@ void Node::handleMessage(cMessage *msg){
     int myIndex=0;
     char tmp;
 
-    if(msg->getPreviousEventNumber()==30){
-        endSimulation();
-    }
+    if(msg->getPreviousEventNumber()!=30){
 
-    sscanf(msg->getName(),"%c%d",&tmp,&myIndex);
+        sscanf(msg->getName(),"%c%d",&tmp,&myIndex);
 
-    if(rand()%2==0){ // send server
-        sprintf(buffer,"s%d",getIndex());
-        send(new cMessage(buffer),"out");
-    }else{
-        int nodeID;
-        do{
-            nodeID = rand() % totalNode;
-        }while(nodeID==getIndex());
-        sprintf(buffer,"n%d",nodeID);
-        send(new cMessage(buffer),"out");
+        if(rand()%2==0){ // send server
+            sprintf(buffer,"s%d",getIndex());
+            send(new cMessage(buffer),"out");
+        }else{
+            int nodeID;
+            do{
+                nodeID = rand() % totalNode;
+            }while(nodeID==getIndex());
+            sprintf(buffer,"n%d",nodeID);
+            send(new cMessage(buffer),"out");
+        }
     }
 
 }

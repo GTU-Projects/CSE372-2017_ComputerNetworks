@@ -41,17 +41,11 @@ void Server::initialize(){
 }
 
 void Server::handleMessage(cMessage *msg){
-    int routerWay;
 
-    endSimulation();
-
-    if(msg->getPreviousEventNumber()==30){
-        endSimulation();
+    if(msg->getPreviousEventNumber()!=30){
+        cMessage *msg1 = getRandomNodeMsg(routerWay);
+        send(msg1, "r_out",routerWay);
     }
-    cMessage *msg1 = getRandomNodeMsg(routerWay);
-    send(msg1, "r_out",routerWay);
-
-
 }
 
 cMessage* Server::getRandomNodeMsg(int &routerWay){
