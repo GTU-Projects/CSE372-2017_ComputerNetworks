@@ -34,7 +34,8 @@ void Server::initialize(){
     nodeNum = par("nodeNum");
     routerNum = par("routerNum");
 
-    cMessage *msg = getRandomNodeMsg(routerWay);
+    cMessage *msg = getRandomNodeMsg(0,routerWay);
+
 
     send(msg, "r_out",routerWay);
 
@@ -42,17 +43,20 @@ void Server::initialize(){
 
 void Server::handleMessage(cMessage *msg){
 
-    if(msg->getPreviousEventNumber()!=30){
-        cMessage *msg1 = getRandomNodeMsg(routerWay);
+    int iTemp;
+    sscanf(msg->getName(),"%d",&iTemp);
+    if(iTemp!=30){
+        int routerWay;
+        cMessage *msg1 = getRandomNodeMsg(++iTemp,routerWay);
         send(msg1, "r_out",routerWay);
     }
 }
 
-cMessage* Server::getRandomNodeMsg(int &routerWay){
+cMessage* Server::getRandomNodeMsg(int num,int &routerWay){
     char nodeInf[50];
     cMessage *msg;
     int nodeID = rand() % (nodeNum*routerNum);
-    sprintf(nodeInf,"n%d",nodeID);
+    sprintf(nodeInf,"%d.n%d",num,nodeID);
     msg = new cMessage(nodeInf);
 
     routerWay = (nodeID / nodeNum);

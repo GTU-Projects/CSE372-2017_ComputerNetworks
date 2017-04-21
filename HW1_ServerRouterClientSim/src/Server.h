@@ -30,7 +30,7 @@ protected:
 private:
     int nodeNum;
     int routerNum;
-    cMessage* getRandomNodeMsg(int &routerWay); // random node icin mesaj ve gonderilecegi router verir
+    cMessage* getRandomNodeMsg(int num,int &routerWay); // random node icin mesaj ve gonderilecegi router verir
 };
 
 #endif /* SERVER_H_ */

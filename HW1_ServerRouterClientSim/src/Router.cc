@@ -33,13 +33,15 @@ void Router::initialize(){
 
 void Router::handleMessage(cMessage *msg){
 
-    char buffer[10];
-    char receiver;
     int way;
+    char receiver;
+    int counter;
 
-    if(msg->getPreviousEventNumber()!=30){
-        sscanf(msg->getName(),"%c%d",&receiver,&way);
-        sprintf(buffer,"n%d",way);
+    // 0.node5
+    // 1.server
+    sscanf(msg->getName(),"%d",&counter);
+    if(counter!=30){
+        sscanf(msg->getName(),"%d%c%c%d",&counter,&receiver,&receiver,&way);
 
         if(receiver=='n'){
             // aynı router altında ise
@@ -48,7 +50,7 @@ void Router::handleMessage(cMessage *msg){
             else{
                 send(msg,"r_out",0);
             }
-        }else if(receiver=='s'){
+        }else{
             send(msg,"s_out");
         }
     }
