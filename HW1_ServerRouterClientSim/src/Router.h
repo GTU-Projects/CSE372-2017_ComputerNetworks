@@ -22,8 +22,8 @@ using namespace omnetpp;
 
 class Router: public omnetpp::cSimpleModule {
 public:
-    Router();
-    virtual ~Router();
+    Router(){};
+    virtual ~Router(){};
 protected:
     virtual void initialize() override;
     virtual void handleMessage(cMessage *msg) override;

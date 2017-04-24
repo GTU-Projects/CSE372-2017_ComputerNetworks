@@ -22,15 +22,15 @@ using namespace omnetpp;
 
 class Server: public omnetpp::cSimpleModule {
 public:
-    Server();
-    virtual ~Server();
+    Server(){};
+    virtual ~Server(){};
 protected:
     virtual void initialize() override;
     virtual void handleMessage(cMessage *msg) override;
 private:
     int nodeNum;
     int routerNum;
-    cMessage* getRandomNodeMsg(int num,int &routerWay); // random node icin mesaj ve gonderilecegi router verir
+    cMessage* getRandomNodeMsg(int &routerWay);
 };
 
 #endif /* SERVER_H_ */

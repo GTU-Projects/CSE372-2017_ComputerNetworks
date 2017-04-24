@@ -18,39 +18,27 @@
 
 Define_Module(Router);
 
-Router::Router() {
-    // TODO Auto-generated constructor stub
-
-}
-
-Router::~Router() {
-    // TODO Auto-generated destructor stub
-}
-
 void Router::initialize(){
-    nodeNum = par("nodeNum");
+    nodeNum = par("nodeNum"); //baglı node sayisini .ned ten oku
 }
 
 void Router::handleMessage(cMessage *msg){
 
-    int way;
-    char receiver;
-    int counter;
+    int way; // mesajın hangi kapıdan gidecegi
+    char receiver; // alici
 
-    // 0.node5
-    // 1.server
-    sscanf(msg->getName(),"%d",&counter);
-    if(counter!=30){
-        sscanf(msg->getName(),"%d%c%c%d",&counter,&receiver,&receiver,&way);
-
+    if(msg->getPreviousEventNumber()!=30){
+        sscanf(msg->getName(),"%c%d",&receiver,&way);
         if(receiver=='n'){
             // aynı router altında ise
             if(way>=getIndex()*nodeNum && way<(getIndex()+1)*nodeNum)
                 send(msg,"n_out",way%nodeNum);
             else{
-                send(msg,"r_out",0);
+                if(way<(getIndex()*nodeNum)) // en yakın routere gonder
+                    send(msg,"r_out",0);
+                else send(msg,"r_out",1);
             }
-        }else{
+        }else{ // servere gonder
             send(msg,"s_out");
         }
     }

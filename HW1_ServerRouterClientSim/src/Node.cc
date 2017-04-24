@@ -19,39 +19,24 @@
 
 Define_Module(Node);
 
-Node::Node() {
-}
-
-Node::~Node() {
-}
-
 void Node::initialize(){
-    totalNode = par("totalNode");
+    totalNode = par("totalNode"); // read total node number from .ned file
 }
 
 void Node::handleMessage(cMessage *msg){
-    char buffer[50];
-    char receiver;
-    int myIndex=0;
-    int counter;
+    char buffer[20];
 
-    sscanf(msg->getName(),"%d",&counter);
-    if(counter!=30){
-        counter++;
-        // 1.node5
-        sscanf(msg->getName(),"%d%c%c%d",&counter,&receiver,&receiver,&myIndex);
-
-        if(rand()%2==0){ // send server
-            sprintf(buffer,"%d.s",counter);
-            send(new cMessage(buffer),"out");
+    if(msg->getPreviousEventNumber()!=30){ // gönderilecek max mesaj sayisi 30 olabilir
+        if(rand()%4==0){ // 4'te 1 ihtimal ile servere gönderebilir
+            strcpy(buffer,"server");
         }else{
             int nodeID;
-            do{
+            do{ // kendi indexi cıktıysa tekrar sec
                 nodeID = rand() % totalNode;
             }while(nodeID==getIndex());
-            sprintf(buffer,"%d.n%d",counter,nodeID);
-            send(new cMessage(buffer),"out");
+            sprintf(buffer,"n%d",nodeID);
         }
+        send(new cMessage(buffer),"r_out");
     }
 
 }

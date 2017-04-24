@@ -22,15 +22,12 @@ using namespace omnetpp;
 
 class Node: public cSimpleModule {
 public:
-    Node();
-    virtual ~Node();
-
+    Node(){};
+    virtual ~Node(){};
 protected:
     virtual void initialize() override;
     virtual void handleMessage(cMessage *msg) override;
     int totalNode;
 };
-
-
 
 #endif /* CLIENT_H_ */

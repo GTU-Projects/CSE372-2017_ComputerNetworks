@@ -22,42 +22,33 @@ Define_Module(Server);
 
 using namespace std;
 
-Server::Server() {
-}
-
-Server::~Server() {
-    // TODO Auto-generated destructor stub
-}
 void Server::initialize(){
-    srand(time(NULL));
     int routerWay;
+
+    srand(time(NULL));
+
     nodeNum = par("nodeNum");
     routerNum = par("routerNum");
 
-    cMessage *msg = getRandomNodeMsg(0,routerWay);
-
-
+    cMessage *msg = getRandomNodeMsg(routerWay);
     send(msg, "r_out",routerWay);
-
 }
 
 void Server::handleMessage(cMessage *msg){
-
-    int iTemp;
-    sscanf(msg->getName(),"%d",&iTemp);
-    if(iTemp!=30){
+    if(msg->getPreviousEventNumber()!=30){ // yeni mesaj olustur ve yolla
         int routerWay;
-        cMessage *msg1 = getRandomNodeMsg(++iTemp,routerWay);
-        send(msg1, "r_out",routerWay);
+        cMessage *msg1 = getRandomNodeMsg(routerWay);
+        send(msg1, "r_out",routerWay); // router outtan yeni mesajı yolla
     }
 }
 
-cMessage* Server::getRandomNodeMsg(int num,int &routerWay){
-    char nodeInf[50];
+// random mesaj uretir ve gidecegi router kapısını parametre ile return eder
+cMessage* Server::getRandomNodeMsg(int &routerWay){
+    char buffer[20];
     cMessage *msg;
     int nodeID = rand() % (nodeNum*routerNum);
-    sprintf(nodeInf,"%d.n%d",num,nodeID);
-    msg = new cMessage(nodeInf);
+    sprintf(buffer,"n%d",nodeID);
+    msg = new cMessage(buffer);
 
     routerWay = (nodeID / nodeNum);
     return msg;
